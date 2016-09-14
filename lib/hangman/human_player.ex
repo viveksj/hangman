@@ -46,21 +46,23 @@ defmodule Hangman.HumanPlayer do
 
 
   def get_guess(state) do
-    if MapSet.size(state.guessed) > 0 do
-      IO.puts "Letters used so far: #{ state.guessed |> MapSet.to_list |> Enum.join(", ")}"
+    guessed = state |> Game.letters_used_so_far
+    if length(guessed) > 0 do
+      IO.puts "Letters used so far: #{ guessed |> Enum.join(", ")}"
     end
     guess_until_valid(state)
   end
 
   def guess_until_valid(state) do
     guess = IO.gets("Next letter:   ") |> String.downcase |> String.trim
+    guessed = state |> Game.letters_used_so_far
 
     cond do
       String.length(guess) != 1 ->
         IO.puts "please enter a single character"
         guess_until_valid(state)
 
-      MapSet.member?(state.guessed, guess) ->
+      guess in guessed ->
         IO.puts "you already tried '#{guess}'"
         guess_until_valid(state)
 
@@ -71,7 +73,7 @@ defmodule Hangman.HumanPlayer do
 
   def draw_current_board(state) do
     clear_screen
-    IO.puts drawing(state.turns_left)
+    IO.puts drawing(Game.turns_left(state))
     IO.puts "Word to guess: #{Game.word_as_string(state)}\n"
   end
 
