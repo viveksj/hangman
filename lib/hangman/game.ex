@@ -236,9 +236,15 @@ Here's this module being exercised from an iex session:
 
   @spec word_as_string(state, boolean) :: binary
   def word_as_string(state, reveal \\ false) do
-    g=[" " | letters_used_so_far(state)] |> Enum.join
-    w = cond do
-    
+    case reveal do
+      true -> String.codepoints(state.word)
+      |>
+      Enum.join(" ")
+
+      false -> String.replace(state.word,"_")
+      |>
+      Enum.join(" ")
+
 
 
   end
