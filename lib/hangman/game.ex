@@ -213,6 +213,7 @@ Here's this module being exercised from an iex session:
 
   @spec letters_used_so_far(state) :: [ binary ]
   def letters_used_so_far(state) do
+    state.letters_guessed
   end
 
   @doc """
