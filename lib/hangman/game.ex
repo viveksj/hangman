@@ -226,6 +226,7 @@ Here's this module being exercised from an iex session:
 
   @spec turns_left(state) :: integer
   def turns_left(state) do
+    state.guesses_left
   end
 
   @doc """
