@@ -162,10 +162,6 @@ Here's this module being exercised from an iex session:
     }
   end
 
-  def distinct_letter(param_word) do
-    Enum.uniq(String.codepoints(param_word))
-  end
-
 
 
   @doc """
@@ -240,6 +236,11 @@ Here's this module being exercised from an iex session:
 
   @spec word_as_string(state, boolean) :: binary
   def word_as_string(state, reveal \\ false) do
+    g=[" " | letters_used_so_far(state)] |> Enum.join
+    w = cond do
+    
+
+
   end
 
   ###########################
@@ -248,4 +249,8 @@ Here's this module being exercised from an iex session:
 
   # Your private functions go here
 
- end
+  defp distinct_letter(param_word) do
+    Enum.uniq(String.codepoints(param_word))
+  end
+
+end 
