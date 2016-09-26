@@ -200,6 +200,7 @@ Here's this module being exercised from an iex session:
   """
   @spec word_length(state) :: integer
   def word_length(%{ word: word }) do
+    String.length(word)
   end
 
   @doc """
