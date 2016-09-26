@@ -1,4 +1,4 @@
-#Local_Branch_Hangman
+#LocalBranchHangman
 defmodule Hangman.Game do
 
   @moduledoc """
@@ -143,6 +143,7 @@ Here's this module being exercised from an iex session:
 
   @spec new_game :: state
   def new_game do
+    new_game(Hangman.Dictionary.random_word)    
   end
 
 
@@ -153,7 +154,18 @@ Here's this module being exercised from an iex session:
   """
   @spec new_game(binary) :: state
   def new_game(word) do
+  %{
+    word: word,
+    guesses_left: 10,
+    letters_guessed: [],
+    letters_still_needed: distinct_letter(word)
+    }
   end
+
+  def distinct_letter(param_word) do
+    Enum.uniq(String.codepoints(param_word))
+  end
+
 
 
   @doc """
