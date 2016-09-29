@@ -184,27 +184,27 @@ Here's this module being exercised from an iex session:
 
   @spec make_move(state, ch) :: { state, atom, optional_ch }
   def make_move(state, guess) do
-    #If to_string(ch) in letters_guessed
-    #Print ch already entered.
-
-    #if ch in letters_still_needed
-      #atom=good_guess
-      #List.delete(state.letters_still_needed,to_string(ch))
-      #
-
-      #if letters_still_needed==nil atom=:win
-
-    #else
-    #atom=bad_guess
-
-
-
-    letters_guessed=letters_guessed+to_string(ch) |> distinct_letter
-    guesses_left=guesses_left-1
-
-    { state, atom, optional_ch }
+  is_there = String.codepoints(state.word) |> Enum.member?(guess)
+  state = new_state(state,is_there,guess)
+  status = manage_guess(state, is_there)
+  {state, status, guess}
 
   end
+  #if (to_string(ch) in state.letters_guessed) do #       IO.puts"(#{ch}) already
+#entered"
+
+  #     else if to_string(ch) in state.letters_still_needed do if #  #if
+  #     letters_still_needed==nil atom=:win #els  e if to_string(ch) in
+  #     letters_still_needed #atom=good_guess
+  #     #List.delete(state.letters_still_needed,to_string(ch)) # #else
+  #     #atom=bad_guess
+
+# Could also have used Enum.uniq(String.codepoints("hello"))
+
+# Subtract a turn for a wrong guess # state = if !correct_guess, do: %{state |
+# turns_left: state.turns_left - 1 }, else: state
+
+
 
 
   @doc """
@@ -254,17 +254,7 @@ Here's this module being exercised from an iex session:
 
   @spec word_as_string(state, boolean) :: binary
   def word_as_string(state, reveal \\ false) do
-    case reveal do
-      true -> String.codepoints(state.word)
-      |>
-      Enum.join(" ")
-
-      false -> String.replace(state.word,"_")
-      |>
-      Enum.join(" ")
-
-
-
+      display(state,reveal) |> String.codepoints |> Enum.join(" ")
   end
 
   ###########################
@@ -275,6 +265,43 @@ Here's this module being exercised from an iex session:
 
   defp distinct_letter(param_word) do
     Enum.uniq(String.codepoints(param_word))
+  end
+
+  defp number_of_distinct_letter(param_word) do
+    Enum.count(Enum.uniq(String.codepoints(param_word)))
+  end
+
+  defp manage_guess(state, true) do
+    a = String.codepoints(state.word) |> Enum.all?(&(Enum.member?(state.letters_guessed, &1)))
+    if a do
+      IO.puts "won"
+      :won
+    else
+      :good_guess
+    end
+  end
+
+  defp manage_guess(%{guesses_left: 0}, false), do: :lost
+  defp manage_guess(%{guesses_left: guesses_left}, false), do: :bad_guess
+
+
+  defp new_state(state, true, guess) do
+   new_state(state, guess)
+ end
+  defp new_state(state, false, guess) do
+    state = %{state | guesses_left: state.guesses_left - 1}
+    new_state(state, guess)
+  end
+  defp new_state(state, guess) do
+    %{state | letters_guessed: [guess | state.letters_guessed], letters_still_needed: distinct_letter(state.word)}
+  end
+
+  defp display(state, true) do
+    state.word
+  end
+  defp display(state, false) do
+    temp = [" " | state.letters_guessed] |> Enum.join #empty string prevents regex error when no guesses
+    String.replace(state.word, ~r/[^#{temp}]/, "_")
   end
 
 end
