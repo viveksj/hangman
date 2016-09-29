@@ -1,4 +1,4 @@
-#LocalBranchHangman
+#LocalBranchHangman_Part2
 defmodule Hangman.Game do
 
   @moduledoc """
@@ -108,7 +108,7 @@ Here's this module being exercised from an iex session:
 
     iex(13)> { game, state, guess } = G.make_move(game, "b")
     . . .
-    iex(14)> state                                          
+    iex(14)> state
     :bad_guess
 
     iex(15)> { game, state, guess } = G.make_move(game, "f")
@@ -143,7 +143,7 @@ Here's this module being exercised from an iex session:
 
   @spec new_game :: state
   def new_game do
-    new_game(Hangman.Dictionary.random_word)    
+    new_game(Hangman.Dictionary.random_word)
   end
 
 
@@ -161,8 +161,6 @@ Here's this module being exercised from an iex session:
     letters_still_needed: distinct_letter(word)
     }
   end
-
-
 
   @doc """
   `{game, status, guess} = make_move(game, guess)`
@@ -186,6 +184,26 @@ Here's this module being exercised from an iex session:
 
   @spec make_move(state, ch) :: { state, atom, optional_ch }
   def make_move(state, guess) do
+    #If to_string(ch) in letters_guessed
+    #Print ch already entered.
+
+    #if ch in letters_still_needed
+      #atom=good_guess
+      #List.delete(state.letters_still_needed,to_string(ch))
+      #
+
+      #if letters_still_needed==nil atom=:win
+
+    #else
+    #atom=bad_guess
+
+
+
+    letters_guessed=letters_guessed+to_string(ch) |> distinct_letter
+    guesses_left=guesses_left-1
+
+    { state, atom, optional_ch }
+
   end
 
 
@@ -259,4 +277,4 @@ Here's this module being exercised from an iex session:
     Enum.uniq(String.codepoints(param_word))
   end
 
-end 
+end
