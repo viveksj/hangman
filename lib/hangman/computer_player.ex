@@ -1,4 +1,6 @@
 defmodule Hangman.ComputerPlayer do
+  import Hangman.Dictionary
+
   use Bitwise
 
   alias Hangman.Game
@@ -126,7 +128,7 @@ defmodule Hangman.ComputerPlayer do
   end
 
 
-  
+
 
   # We need to know whether there is any place that a guess could
   # fit. A new guess can only go where there's an underscore
@@ -180,7 +182,7 @@ defmodule Hangman.ComputerPlayer do
   # defp check_candidates_for_letter_in_slot([], _, _) do
   #   false
   # end
-  # 
+  #
   # defp check_candidates_for_letter_in_slot([ {candidate,_} | rest], guess, to_check) do
   #   chars = candidate |> String.codepoints
   #   if check_one_word_for_letter_in_slot(chars, to_check, guess) do
@@ -189,20 +191,20 @@ defmodule Hangman.ComputerPlayer do
   #     check_candidates_for_letter_in_slot(rest, guess, to_check)
   #   end
   # end
-  # 
+  #
   # defp check_one_word_for_letter_in_slot([], [], _) do
   #   false
   # end
-  # 
+  #
   # defp check_one_word_for_letter_in_slot([actual | _rest_c],
   #                                       [true   | _rest_t],
   #                                       actual) do
   #   true
   # end
-  # 
-  # 
-  # 
-  # 
+  #
+  #
+  #
+  #
   # defp check_one_word_for_letter_in_slot([_    | rest_c],
   #                                       [_    | rest_t],
   #                                       actual) do
