@@ -1,10 +1,6 @@
 defmodule Hangman.Mixfile do
   use Mix.Project
 
-  def deps do
-  [{:hangman, "~> 0.1.0"}]
-  end
-
   def project do
     [app: :hangman,
      version: "0.1.0",
